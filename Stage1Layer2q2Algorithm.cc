@@ -53,14 +53,12 @@ void l1t::Stage1Layer2q2Algorithm::processEvent(const std::vector<l1t::CaloRegio
   std::vector<double> q2(2,0.);
   double sumW=0.;
   for (unsigned int iphi=0; iphi<L1CaloRegionDetId::N_PHI; iphi++) {
+// cos and sin must be come from in a LUT at the end...
       q2.at(0)+=sumET[iphi] * cos(2. * 3.1415927 * iphi * 1.0 / L1CaloRegionDetId::N_PHI);
       q2.at(1)+=sumET[iphi] * sin(2. * 3.1415927 * iphi * 1.0 / L1CaloRegionDetId::N_PHI);
-      sumW+=sumET[iphi];
   }
   
-  double q2x = q2.at(0)/=sumW;
-  double q2y = q2.at(1)/=sumW;
-  double HFq2 = sqrt(q2x*q2x+q2y*q2y);
+  double HFq2 = q2.at(0)*q2.at(0)+q2.at(1)*q2.at(1);
 //  double psi2 = 0.5 * atan(q2y/q2x);
  
   ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > etLorentz(0,0,0,0);
